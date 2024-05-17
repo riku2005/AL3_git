@@ -4,16 +4,36 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() {
+
+	delete model_;
+	delete player_;
+}
 
 void GameScene::Initialize() {
 
+//2D
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	textureHandle_ = TextureManager::Load("rinku.jpg");
+
+//3Dモデル
+	model_ = Model::Create();
+	worldTransform_.Initialize();
+	viewProjection_.Initialize();
+	//自キャラの生成
+	player_ = new Player();
+	//自キャラの初期化
+	player_ ->Initialize(model_,textureHandle_,&viewProjection_);
+
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+
+	player_ ->Update();
+
+}
 
 void GameScene::Draw() {
 
@@ -42,6 +62,8 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
+	player_ ->Draw();
+
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -53,6 +75,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
