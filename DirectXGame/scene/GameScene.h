@@ -10,6 +10,8 @@
 #include "WorldTransform.h"
 #include "Player.h"
 
+#include <vector>
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -49,11 +51,16 @@ private: // メンバ変数
 
 	//3Dモデル
 	Model* model_ = nullptr;
+	Model* modelBlock_ = nullptr;
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
 
 	//自キャラ
 	Player* player_ = nullptr;
+
+	std::vector<WorldTransform*> worldTransformBlocks_;
+
+
 
 	/// <summary>
 	/// ゲームシーン用
