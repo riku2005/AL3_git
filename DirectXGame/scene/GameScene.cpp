@@ -9,10 +9,13 @@ GameScene::~GameScene() {
 	delete model_;
 	delete player_;
 	
-	for (WorldTransform* worldTransformBlock : worldTransformBlocks_) {
-		delete worldTransformBlock;
-	}
-	worldTransformBlocks_.clear();
+	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
+		 for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			delete worldTransformBlock;
+    }
+}
+		worldTransformBlocks_.clear();
+
 }
 
 void GameScene::Initialize() {
@@ -35,27 +38,47 @@ void GameScene::Initialize() {
 
 	
 	// 要素数
+	const uint32_t kNumBlockVirtical = 10;
 	const uint32_t kNumBlockHorizontal = 20;
 	// ブロック1個分の横幅
 	const float kBlockWidth = 2.0f;
-	// 要素数を変更する
-	worldTransformBlocks_.resize(kNumBlockHorizontal);
+	const float kBlockHeight = 2.0f;
 
-	// キューブの生成
-	for (uint32_t i = 0; i < kNumBlockHorizontal; ++i) {
-		worldTransformBlocks_[i] = new WorldTransform();
-		worldTransformBlocks_[i]->Initialize();
-		worldTransformBlocks_[i]->translation_.x = kBlockWidth * i;
-		worldTransformBlocks_[i]->translation_.y = 0.0f;
+	// 要素数を変更する
+	// 列数を設定（縦方向のブロック数）
+	worldTransformBlocks_.resize(kNumBlockVirtical);
+	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
+    // 1列の要素数を設定（横方向のブロック数）
+    worldTransformBlocks_[i].resize(kNumBlockHorizontal);
 	}
 
-
-
+	// ブロックの生成
+	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
+		for (uint32_t j = 0; j < kNumBlockHorizontal; ++j) {
+			worldTransformBlocks_[i][j] = new WorldTransform();
+			worldTransformBlocks_[i][j]->Initialize();
+			worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * j;
+			worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
+    }
 }
+
+
+	}
 
 void GameScene::Update() {
 
 	player_ ->Update();
+
+	// 縦横ブロック更新
+	for (std::vector<WorldTransform*> worldTransformBlockTate : worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlockYoko : worldTransformBlockTate) {
+			if (!worldTransformBlockYoko)
+				continue;
+
+			// アフィン変換行列の作成
+			worldTransformBlockYoko->UpdateMatrix();
+		}
+	}
 
 }
 
@@ -87,6 +110,17 @@ void GameScene::Draw() {
 	/// </summary>
 
 	player_ ->Draw();
+
+	//縦横ブロック描画
+	for (std::vector<WorldTransform*> worldTransformBlockTate : worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlockYoko : worldTransformBlockTate) {
+			if (!worldTransformBlockYoko)
+				continue;
+
+			modelBlock_->Draw(*worldTransformBlockYoko, viewProjection_);
+		}
+	}
+
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
