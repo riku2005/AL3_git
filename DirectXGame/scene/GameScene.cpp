@@ -16,6 +16,8 @@ GameScene::~GameScene() {
 }
 		worldTransformBlocks_.clear();
 
+	delete debugCamera_;
+
 }
 
 void GameScene::Initialize() {
@@ -52,22 +54,55 @@ void GameScene::Initialize() {
     worldTransformBlocks_[i].resize(kNumBlockHorizontal);
 	}
 
-	// ブロックの生成
+	// キューブの生成
 	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
-		for (uint32_t j = 0; j < kNumBlockHorizontal; ++j) {
-			worldTransformBlocks_[i][j] = new WorldTransform();
-			worldTransformBlocks_[i][j]->Initialize();
-			worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * j;
-			worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
-    }
-}
+		worldTransformBlocks_[i].resize(kNumBlockHorizontal);
+	}
 
+	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
+			for (uint32_t j = 0; j < kNumBlockHorizontal; ++j) {
+				if (j % 2 == (i%2)) {
+					worldTransformBlocks_[i][j] = new WorldTransform();
+					worldTransformBlocks_[i][j]->Initialize();
+					worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * j;
+					worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
+				} else {
+					worldTransformBlocks_[i][j] = nullptr;
+				}
+			}
+	}
+
+	// デバッグカメラの生成
+	debugCamera_ = new DebugCamera(1280, 720);
 
 	}
 
 void GameScene::Update() {
 
 	player_ ->Update();
+
+	#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_SPACE)) {
+		if (isDebugCameraActive_ == true)
+			isDebugCameraActive_ = false;
+		else
+			isDebugCameraActive_ = true;
+	}
+	#endif
+
+	// カメラ処理
+	if (isDebugCameraActive_) {
+		// デバッグカメラの更新
+		debugCamera_->Update();
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
+	} else {
+		// ビュープロジェクション行列の更新と転送
+		viewProjection_.UpdateMatrix();
+	}
+
 
 	// 縦横ブロック更新
 	for (std::vector<WorldTransform*> worldTransformBlockTate : worldTransformBlocks_) {
@@ -79,6 +114,8 @@ void GameScene::Update() {
 			worldTransformBlockYoko->UpdateMatrix();
 		}
 	}
+
+	debugCamera_->Update();
 
 }
 
