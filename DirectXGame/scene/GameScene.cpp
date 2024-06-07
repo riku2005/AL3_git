@@ -83,9 +83,9 @@ void GameScene::Initialize() {
 	skydome_ = new Skydome();
 
 	//天球の初期化
-	skydome_->Initialize();
+	modelSkydome_ = Model::CreateFromOBJ("sphere",true);
+	skydome_->Initialize(modelSkydome_,&viewProjection_);
 
-	modelSkydome_ = Model::CreateFromOBJ("skydome",true);
 
 	}
 

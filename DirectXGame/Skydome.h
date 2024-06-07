@@ -7,7 +7,7 @@ class Skydome {
 
 public:
 
-	void Initialize();
+	void Initialize(Model* model,ViewProjection* viewProjection);
 
 
 	void Update();
@@ -21,5 +21,7 @@ private:
 
 	//モデル
 	Model* model_ = nullptr;
+
+	ViewProjection* viewProjection_ = nullptr;
 
 };
