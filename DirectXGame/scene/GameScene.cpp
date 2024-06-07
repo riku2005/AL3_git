@@ -18,6 +18,10 @@ GameScene::~GameScene() {
 
 	delete debugCamera_;
 
+	delete skydome_;
+
+	delete modelSkydome_;
+
 }
 
 void GameScene::Initialize() {
@@ -75,6 +79,14 @@ void GameScene::Initialize() {
 	// デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
 
+	//天球の生成
+	skydome_ = new Skydome();
+
+	//天球の初期化
+	skydome_->Initialize();
+
+	modelSkydome_ = Model::CreateFromOBJ("skydome",true);
+
 	}
 
 void GameScene::Update() {
@@ -117,6 +129,8 @@ void GameScene::Update() {
 
 	debugCamera_->Update();
 
+	skydome_->Update();
+
 }
 
 void GameScene::Draw() {
@@ -158,6 +172,7 @@ void GameScene::Draw() {
 		}
 	}
 
+	skydome_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
