@@ -32,7 +32,7 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-	textureHandle_ = TextureManager::Load("rinku.jpg");
+//	textureHandle_ = TextureManager::Load("rinku.jpg");
 
 //3Dモデル
 	model_ = Model::Create();
@@ -41,8 +41,6 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 	//自キャラの生成
 	player_ = new Player();
-	//自キャラの初期化
-	player_ ->Initialize(model_,textureHandle_,&viewProjection_);
 
 	// デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
@@ -56,6 +54,11 @@ void GameScene::Initialize() {
 
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/map.csv");
+
+		//自キャラの初期化
+	Vector3 pos = mapChipField_->GetMapChipPositionByIndex(3,2);
+	player_ ->Initialize(&viewProjection_, pos);
+
 
 	GenerateBlocks();
 

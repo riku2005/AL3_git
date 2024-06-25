@@ -8,13 +8,14 @@ class Player {
 
 public:
 
-	void Initialize(Model* model,uint32_t textureHandle,ViewProjection* viewProjection);
+	void Initialize(ViewProjection* viewProjection,const Vector3& pos);
 
 	void Update();
 
 	void Draw();
 
 private:
+	Vector3 velocity_ {};
 	//ワールド変換データ
 	WorldTransform worldTransform_;
 	//モデル
