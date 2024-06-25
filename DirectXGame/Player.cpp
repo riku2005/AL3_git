@@ -1,4 +1,5 @@
 ﻿#include "Player.h"
+#include "Input.h"
 #include <cassert>
 #include <numbers>
 
@@ -19,6 +20,27 @@ viewProjection_ = viewProjection;
 }
 
 void Player::Update() {
+
+	// 移動入力
+    // 左右移動操作
+    if (Input::GetInstance()->PushKey(DIK_RIGHT) || Input::GetInstance()->PushKey(DIK_LEFT)) {
+    // 左右加速
+    Vector3 acceleration = {};
+    if (Input::GetInstance()->PushKey(DIK_RIGHT)) {
+        acceleration.x += kAcceleration;
+    } else if (Input::GetInstance()->PushKey(DIK_LEFT)) {
+        acceleration.x -= kAcceleration;
+    }
+    // 加速／減速
+    velocity_.x += acceleration.x;
+    velocity_.y += acceleration.y;
+    velocity_.z += acceleration.z;
+}
+
+
+
+
+
 
 	worldTransform_.translation_.x += velocity_.x;
 	worldTransform_.translation_.y += velocity_.y;

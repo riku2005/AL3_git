@@ -15,6 +15,8 @@ public:
 	void Draw();
 
 private:
+	static inline const float kAcceleration = 0.01f;
+
 	Vector3 velocity_ {};
 	//ワールド変換データ
 	WorldTransform worldTransform_;
