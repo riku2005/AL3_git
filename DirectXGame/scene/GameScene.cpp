@@ -56,7 +56,7 @@ void GameScene::Initialize() {
 	mapChipField_->LoadMapChipCsv("Resources/map.csv");
 
 		//自キャラの初期化
-	Vector3 pos = mapChipField_->GetMapChipPositionByIndex(3,2);
+	Vector3 pos = mapChipField_->GetMapChipPositionByIndex(3,17);
 	player_ ->Initialize(&viewProjection_, pos);
 
 
