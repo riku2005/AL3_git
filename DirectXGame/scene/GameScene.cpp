@@ -32,7 +32,7 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-	textureHandle_ = TextureManager::Load("rinku.jpg");
+	//textureHandle_ = TextureManager::Load("rinku.jpg");
 
 //3Dモデル
 	model_ = Model::Create();
@@ -42,17 +42,18 @@ void GameScene::Initialize() {
 	//自キャラの生成
 	player_ = new Player();
 	//自キャラの初期化
-	player_ ->Initialize(model_,textureHandle_,&viewProjection_);
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3,18);
+	player_ ->Initialize(model_,&viewProjection_,playerPosition);
 
 	// デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
 
 	//天球の生成
-	skydome_ = new Skydome();
+	//skydome_ = new Skydome();
 
 	//天球の初期化
-	modelSkydome_ = Model::CreateFromOBJ("sphere",true);
-	skydome_->Initialize(modelSkydome_,&viewProjection_);
+	//modelSkydome_ = Model::CreateFromOBJ("sphere",true);
+	//skydome_->Initialize(modelSkydome_,&viewProjection_);
 
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/map.csv");
@@ -101,7 +102,7 @@ void GameScene::Update() {
 
 	debugCamera_->Update();
 
-	skydome_->Update();
+	//skydome_->Update();
 
 }
 
@@ -144,7 +145,7 @@ void GameScene::Draw() {
 		}
 	}
 
-	skydome_->Draw();
+	//skydome_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
