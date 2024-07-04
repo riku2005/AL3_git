@@ -1,0 +1,9 @@
+﻿#include "MathUtilityForText.h"
+
+//Vector3の足し算
+Vector3& operator+=(Vector3& lhv, const Vector3& rhv) {
+	lhv.x += rhv.x;
+	lhv.y += rhv.y;
+	lhv.z += rhv.z;
+	return lhv;
+}

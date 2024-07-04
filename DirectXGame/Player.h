@@ -3,18 +3,24 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "MathUtilityForText.h"
 
 class Player {
 
 public:
 
-	void Initialize(Model* model,ViewProjection*viewProjection,const Vector3& position);
+	void Initialize(ViewProjection*viewProjection,const Vector3& position);
 
 	void Update();
 
 	void Draw();
 
 private:
+
+	static inline const float kAcceleration = 0.01f;
+
+	Vector3 velocity_{};
+
 	//ワールド変換データ
 	WorldTransform worldTransform_;
 	//モデル

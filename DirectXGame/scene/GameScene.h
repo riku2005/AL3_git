@@ -76,7 +76,7 @@ private: // メンバ変数
 	Model* modelSkydome_ = nullptr;
 
 	//マップチップフィールド
-	MapChipField* mapChipField_;
+	MapChipField* mapChipField_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
