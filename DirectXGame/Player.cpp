@@ -1,4 +1,5 @@
-﻿#include "Player.h"
+﻿#define NOMINMAX
+#include "Player.h"
 #include "Input.h"
 #include <cassert>
 #include <numbers>
@@ -23,6 +24,7 @@ void Player::Update() {
 
 	//移動入力
 	//左右移動操作
+if(onGround_){
 	if (Input::GetInstance()->PushKey(DIK_RIGHT) ||
 		Input::GetInstance()->PushKey(DIK_LEFT)){
 
@@ -100,12 +102,61 @@ void Player::Update() {
 		velocity_.x *= (1.0f - kAttenuation);
 	}
 
+	if (Input::GetInstance()->PushKey(DIK_UP)) {
+
+		//ジャンプ初速
+		velocity_ += Vector3(0,kJumpAcceleration,0);
+		velocity_.x += 0;
+		velocity_.y += kJumpAcceleration;
+		velocity_.z += 0;
+
+		}
+
+	}
+	else {
+		//落下速度
+		velocity_ += Vector3(0,-kGravityAcceleration,0);
+		velocity_.x += 0;
+		velocity_.y += -kGravityAcceleration;
+		velocity_.z += 0;
+
+		//落下速度制限
+		velocity_.y = std::max(velocity_.y,-kLimitFallSpeed);
+
+		//着地フラグ
+		landing = false;
+
+		//地面との当たり判定
+		//下降中
+		if (velocity_.y < 0) {
+			//Y座標が地面以下になったら着地
+			if (worldTransform_.translation_.y <= 2.0f) {
+				landing = true;
+			}
+		}
+
+	}
+	//移動
 	worldTransform_.translation_.x += velocity_.x;
 	worldTransform_.translation_.y += velocity_.y;
 	worldTransform_.translation_.z += velocity_.z;
 
+	//接地判定
 	if (onGround_) {
-
+		//ジャンプ開始
+		if (velocity_.y > 0.0f) {
+			//空中状態に移行
+			onGround_ = false;
+		}
+	}
+	else {
+		//着地
+		if (landing) {
+			worldTransform_.translation_.y = 2.0f;
+			velocity_.x *= (1.0f - kAttenuation);
+			velocity_.y = 0.0f;
+			onGround_ = true;
+		}
 	}
 
 	worldTransform_. TransferMatrix();
