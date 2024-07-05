@@ -1,6 +1,8 @@
 ﻿#define NOMINMAX
 #include "Player.h"
 #include "Input.h"
+#include "DirectXCommon.h"
+#include "Easing.h"
 #include <cassert>
 #include <numbers>
 #include <algorithm>
