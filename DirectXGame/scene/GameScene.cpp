@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "TextureManager.h"
 #include <cassert>
+#include "CameraController.h"
 
 GameScene::GameScene() {}
 
@@ -23,6 +24,8 @@ GameScene::~GameScene() {
 	delete modelSkydome_;
 
 	delete mapChipField_;
+
+	delete cameraController;
 
 }
 
@@ -62,11 +65,21 @@ void GameScene::Initialize() {
 
 	GenerateBlocks();
 
+	cameraController = new CameraController;
+	cameraController->Initialize();
+	cameraController->SetTarget(player_);
+	cameraController->Reset();
+
+	CameraController::Rect cameraArea = {12.0f,100 - 12.0f,6.0f,6.0f};
+	cameraController->SetMovableArea(cameraArea);
+
 	}
 
 void GameScene::Update() {
 
 	player_ ->Update();
+
+	cameraController->Update();
 
 	#ifdef _DEBUG
 	if (input_->TriggerKey(DIK_SPACE)) {

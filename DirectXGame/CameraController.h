@@ -1,16 +1,17 @@
-#pragma once
+ï»¿#pragma once
 #include "ViewProjection.h"
+#include "MathUtilityForText.h"
 
-//‘O•ûéŒ¾
+//å‰æ–¹å®£è¨€
 class Player;
 
-//ƒJƒƒ‰ƒRƒ“ƒgƒ[ƒ‰[
+//ã‚«ãƒ¡ãƒ©ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼
 class CameraController {
 
 public:
 
-	//‹éŒ`
-	struct Ract {
+	//çŸ©å½¢
+	struct Rect {
 		float left = 0.0f;
 		float right = 1.0f;
 		float bottom = 0.0f;
@@ -19,26 +20,35 @@ public:
 
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialize();
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 
-	void SetTarget(Player* target){target_ = target;}
+	//ã‚»ãƒƒã‚¿ãƒ¼
 	void Reset();
+	void SetTarget(Player* target){target_ = target;}
+	void SetMovableArea(const Rect& area){movableArea_ = area;}
+
+	//ã‚²ãƒƒã‚¿ãƒ¼
+	const ViewProjection& GetViewProjection() const{return viewProjection_;}
 
 private:
 
-	//ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“
+	//ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³
 	ViewProjection viewProjection_;
 	Player* target_ = nullptr;
+	Rect movableArea_ = {0,100,0,100};
+	Vector3 destination_;
+	//è¿½å¾“å¯¾è±¡ã¨ã‚«ãƒ¡ãƒ©ã®åº§æ¨™ã®å·®
+	Vector3 targetOffset_ = {0,0,-15.0f};
+	static inline const Rect targetMargin = {-9.0f,9.0f,-5.0f,5.0f};
 
-	//’Ç]‘ÎÛ‚ÆƒJƒƒ‰‚ÌÀ•W‚Ì·
-	Vector3 targetOffset_ = {0,0,-30.0f};
-
+	//åº§æ¨™è£œé–“å‰²åˆ
+	static inline const float kInterpolationRate = 0.1f;
 
 };
