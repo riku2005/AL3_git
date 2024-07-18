@@ -1,6 +1,8 @@
 #include "GameScene.h"
+#include "MathUtilityForText.h"
 #include "TextureManager.h"
 #include <cassert>
+#include <cstdint>
 #include "CameraController.h"
 
 GameScene::GameScene() {}
@@ -13,6 +15,7 @@ GameScene::~GameScene() {
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		 for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			delete worldTransformBlock;
+			worldTransformBlock = nullptr;
     }
 }
 		worldTransformBlocks_.clear();
@@ -39,7 +42,7 @@ void GameScene::Initialize() {
 
 //3Dモデル
 	model_ = Model::Create();
-	modelBlock_  = Model::Create();
+	modelBlock_  = Model::CreateFromOBJ("block");
 	worldTransform_.Initialize();
 	viewProjection_.Initialize();
 	//自キャラの生成
