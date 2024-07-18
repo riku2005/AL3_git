@@ -38,7 +38,7 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-	//textureHandle_ = TextureManager::Load("rinku.jpg");
+	//textureHandle_ = TextureManager::Load("block.jpg");
 
 //3Dモデル
 	model_ = Model::Create();
@@ -65,6 +65,7 @@ void GameScene::Initialize() {
 	//自キャラの初期化
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3,18);
 	player_ ->Initialize(&viewProjection_,playerPosition);
+	player_->SetMapChipField(mapChipField_);
 
 	GenerateBlocks();
 

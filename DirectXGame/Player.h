@@ -32,6 +32,10 @@ public:
 
 	void Draw();
 
+	//setter
+	void SetMapChipField(MapChipField* mapChipField) {
+		mapChipField_ = mapChipField;}
+
 	//getter
 	const WorldTransform& GetWorldTransform() const {return worldTransform_;}
 	const Vector3& GetVelocity() const {return velocity_;}
@@ -50,7 +54,7 @@ private:
 	//旋回時間<秒>
 	static inline const float kTimeTurn = 0.3f;
 	static inline const float kAttenuationWall = 0.2f;
-	static inline const float kattenuationLanding = 0.0f;
+	static inline const float kAttenuationLanding = 0.0f;
 	static inline const float kWidth = 0.8f;
 	static inline const float kHeight = 0.8f;
 	static inline const float kBlank = 0.04f;
@@ -94,7 +98,7 @@ private:
 	void CheckMapCollisionDown(CollisionMapInfo& info);
 	void CheckMapCollisionRight(CollisionMapInfo& info);
 	void CheckMapCollisionLeft(CollisionMapInfo& info);
-	void UpdateOnGround(CollisionMapInfo& info);
+	void UpdateOnGround(const CollisionMapInfo& info);
 	void AnimateTurn();
 
 	Vector3 CornerPosition(const Vector3& center,Corner corner);

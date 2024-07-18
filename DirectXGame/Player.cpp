@@ -54,7 +54,7 @@ void Player::Update() {
 	//接地判定
 	UpdateOnGround(collisionMapInfo);
 	//旋回制御
-	AnimateTurn();
+//	AnimateTurn();
 	//行列計算
 	worldTransform_.UpdateMatrix();
 
@@ -73,68 +73,74 @@ void Player::InputMove() {
 		if (Input::GetInstance()->PushKey(DIK_RIGHT) ||
 			Input::GetInstance()->PushKey(DIK_LEFT)){
 
-	//左右加速
-	Vector3 acceleration = {};
-	if (Input::GetInstance()->PushKey(DIK_RIGHT)) {
+			//左右加速
+			Vector3 acceleration = {};
+			if (Input::GetInstance()->PushKey(DIK_RIGHT)) {
 		
-		//左移動中の右入力
-		if (velocity_.x < 0.0f) {
-			//速度と逆方向に入力中は急ブレーキ
-			velocity_.x *= (1.0f - kAttenuation);
-		}
+				//左移動中の右入力
+				if (velocity_.x < 0.0f) {
+					//速度と逆方向に入力中は急ブレーキ
+					velocity_.x *= (1.0f - kAttenuation);
+				}
 
-		acceleration.x += kAcceleration / 60.0f;
+				acceleration.x += kAcceleration / 60.0f;
 
-		if (lrDirection_ != LRDirection::kRight) {
-			lrDirection_ = LRDirection::kRight;
+				if (lrDirection_ != LRDirection::kRight) {
+					lrDirection_ = LRDirection::kRight;
 
-			//旋回開始時の角度
-			turnFirstRotationY_ = worldTransform_.rotation_.y;
-			//旋回タイマー
-			turnTimer_ = kTimeTurn;
-		}
-
-	}
-	else if (Input::GetInstance()->PushKey(DIK_LEFT)) {
-
-		//右移動中の左入力
-		if (velocity_.x > 0.0f) {
-			//速度と逆方向に入力中は急ブレーキ
-			velocity_.x *= (1.0f - kAttenuation);
-		}
-
-		acceleration.x -= kAcceleration / 60.0f;
-
-		if (lrDirection_ != LRDirection::kLeft) {
-			lrDirection_ = LRDirection::kLeft;
-
-			//旋回開始時の角度
-			turnFirstRotationY_ = worldTransform_.rotation_.y;
-			//旋回タイマー
-			turnTimer_ = kTimeTurn;
-		}
-
-	}
-		
-	//加速/減速
-	velocity_.x += acceleration.x;
-	velocity_.y += acceleration.y;
-	velocity_.z += acceleration.z;
-
-	//最大速度制限
-	velocity_.x = std::clamp(velocity_.x,-kLimitRunSpeed,kLimitRunSpeed);
-	}else{
-			velocity_.x *= (1.0f - kAttenuation);
+					//旋回開始時の角度
+					turnFirstRotationY_ = worldTransform_.rotation_.y;
+					//旋回タイマー
+					turnTimer_ = kTimeTurn;
+				}
 			}
+			else if (Input::GetInstance()->PushKey(DIK_LEFT)) {
+
+				//右移動中の左入力
+				if (velocity_.x > 0.0f) {
+					//速度と逆方向に入力中は急ブレーキ
+					velocity_.x *= (1.0f - kAttenuation);
+				}
+
+				acceleration.x -= kAcceleration / 60.0f;
+
+				if (lrDirection_ != LRDirection::kLeft) {
+					lrDirection_ = LRDirection::kLeft;
+
+					//旋回開始時の角度
+					turnFirstRotationY_ = worldTransform_.rotation_.y;
+					//旋回タイマー
+					turnTimer_ = kTimeTurn;
+				}
+
+			}
+		
+			//加速/減速
+			velocity_.x += acceleration.x;
+			velocity_.y += acceleration.y;
+			velocity_.z += acceleration.z;
+
+			//最大速度制限
+			velocity_.x = std::clamp(velocity_.x,-kLimitRunSpeed,kLimitRunSpeed);
+		}else{
+			velocity_.x *= (1.0f - kAttenuation);
+		}
+	
 		if (std::abs(velocity_.x) <= 0.0001f){
 			velocity_.x = 0.0f;
-			}
+		}
+	
 		if(Input::GetInstance()->PushKey(DIK_UP)){
 			velocity_ += Vector3(0,kJumpAcceleration / 60.0f,0);
 			velocity_.y = std::max(velocity_.y,-kLimitFallSpeed);
-			}
 		}
 	}
+		else {
+			//落下速度
+			velocity_ += Vector3(0, -kGravityAcceleration / 60.0f,0);
+			velocity_.y = std::max(velocity_.y,-kLimitFallSpeed);
+		}
+}
 	void Player::CheckMapCollision(CollisionMapInfo& info){
 		CheckMapCollisionUp(info);
 		CheckMapCollisionDown(info);
@@ -345,7 +351,7 @@ void Player::InputMove() {
 
 	}
 
-	void Player::UpdateOnGround(CollisionMapInfo& info) {
+	void Player::UpdateOnGround(const CollisionMapInfo& info) {
 		if (onGround_) {
 			//ジャンプ開始
 			if (velocity_.y > 0.0f) {
@@ -386,7 +392,7 @@ void Player::InputMove() {
 		else {
 			//着地
 			if (info.landing) {
-				velocity_.x *= (1.0f - kattenuationLanding);
+				velocity_.x *= (1.0f - kAttenuationLanding);
 				velocity_.y = 0.0f;
 
 				DebugText::GetInstance()->ConsolePrintf("onGround");
