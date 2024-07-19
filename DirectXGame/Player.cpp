@@ -352,7 +352,7 @@ void Player::InputMove() {
 			if (indexSetNow.xIndex != indexSet.xIndex) {
 				indexSet = mapChipField_->GetMapChipIndexSetByPosition(worldTransform_.translation_ + info.move + Vector3(-kWidth / 2.0f,0,0));
 				MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex,indexSet.yIndex);
-				info.move.x = std::min(0.0f,rect.right - worldTransform_.translation_.x - (kWidth / 2.0f + kBlank));
+				info.move.x = std::min(0.0f,rect.right - worldTransform_.translation_.x + (kWidth / 2.0f + kBlank));
 				info.hitWall = true;
 			}
 
@@ -393,8 +393,8 @@ void Player::InputMove() {
 				//落下開始
 					if (!ground) {
 						DebugText::GetInstance()->ConsolePrintf("jump");
-						onGround_ = true;
-				}
+						onGround_ = false;
+				    }
 
 			}
 		}

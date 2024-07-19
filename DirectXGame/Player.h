@@ -42,9 +42,9 @@ public:
 
 private:
 
-	static inline const float kAcceleration = 0.01f;
-	static inline const float kAttenuation = 0.01f;
-	static inline const float kLimitRunSpeed = 2.0f;
+	static inline const float kAcceleration = 0.1f;
+	static inline const float kAttenuation = 0.05f;
+	static inline const float kLimitRunSpeed = 0.5f;
 	//重力加速度(下方向)
 	static inline const float kGravityAcceleration = 0.05f;
 	//最大落下速度(下方向)

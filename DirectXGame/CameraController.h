@@ -45,7 +45,7 @@ private:
 	Rect movableArea_ = {0,100,0,100};
 	Vector3 destination_;
 	//追従対象とカメラの座標の差
-	Vector3 targetOffset_ = {0,0,-15.0f};
+	Vector3 targetOffset_ = {0,0,-30.0f};
 	static inline const Rect targetMargin = {-9.0f,9.0f,-5.0f,5.0f};
 
 	//座標補間割合
