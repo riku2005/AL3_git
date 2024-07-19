@@ -54,7 +54,7 @@ void Player::Update() {
 	//接地判定
 	UpdateOnGround(collisionMapInfo);
 	//旋回制御
-//	AnimateTurn();
+	AnimateTurn();
 	//行列計算
 	worldTransform_.UpdateMatrix();
 
