@@ -42,15 +42,15 @@ public:
 
 private:
 
-	static inline const float kAcceleration = 0.01f;
-	static inline const float kAttenuation = 0.01f;
-	static inline const float kLimitRunSpeed = 2.0f;
+	static inline const float kAcceleration = 0.05f;
+	static inline const float kAttenuation = 0.05f;
+	static inline const float kLimitRunSpeed = 1.0f;
 	//重力加速度(下方向)
 	static inline const float kGravityAcceleration = 0.05f;
 	//最大落下速度(下方向)
 	static inline const float kLimitFallSpeed = 0.5f;
 	//ジャンプ初速(上方向)
-	static inline const float kJumpAcceleration = 0.7f;
+	static inline const float kJumpAcceleration = 1.0f;
 	//旋回時間<秒>
 	static inline const float kTimeTurn = 0.3f;
 	static inline const float kAttenuationWall = 0.2f;
