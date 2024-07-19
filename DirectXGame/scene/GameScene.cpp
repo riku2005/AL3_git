@@ -10,6 +10,7 @@ GameScene::GameScene() {}
 GameScene::~GameScene() {
 
 	delete model_;
+	delete enemy_;
 	delete player_;
 	
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
@@ -21,14 +22,12 @@ GameScene::~GameScene() {
 		worldTransformBlocks_.clear();
 
 	delete debugCamera_;
-
 	delete skydome_;
-
 	delete modelSkydome_;
-
 	delete mapChipField_;
-
 	delete cameraController;
+	delete modelBlock_;
+	delete modelEnemy_;
 
 }
 
@@ -43,6 +42,7 @@ void GameScene::Initialize() {
 //3Dモデル
 	model_ = Model::Create();
 	modelBlock_  = Model::CreateFromOBJ("block");
+	modelEnemy_ = Model::CreateFromOBJ("enemy");
 	worldTransform_.Initialize();
 	viewProjection_.Initialize();
 	//自キャラの生成
@@ -77,11 +77,17 @@ void GameScene::Initialize() {
 	CameraController::Rect cameraArea = {12.0f,100 - 12.0f,6.0f,6.0f};
 	cameraController->SetMovableArea(cameraArea);
 
+	enemy_ = new Enemy();
+	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(14,18);
+	enemy_->Initialize(modelEnemy_,&viewProjection_,enemyPosition);
+
 	}
 
 void GameScene::Update() {
 
 	player_ ->Update();
+
+	enemy_->Update();
 
 	cameraController->Update();
 
@@ -155,6 +161,8 @@ void GameScene::Draw() {
 	/// </summary>
 
 	player_ ->Draw();
+
+	enemy_->Draw();
 
 	//縦横ブロック描画
 	for (std::vector<WorldTransform*> worldTransformBlockTate : worldTransformBlocks_) {
