@@ -57,4 +57,5 @@ AABB Enemy::GetAABB() {
 
 void Enemy::OnCollision(const Player* player) {
 	(void)player;
+
 }
