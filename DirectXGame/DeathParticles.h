@@ -3,6 +3,8 @@
 #include"Model.h"
 #include"ViewProjection.h"
 #include"WorldTransform.h"
+#include"Vector4.h"
+
 #include<array>
 #include<numbers>
 
@@ -28,6 +30,6 @@ private:
 	ViewProjection* viewProjection_ = nullptr;
 	bool isFinished_ = 0.0f;
 	float counter_ = 0.0f;
-	ObjectColor objectColor_;
+//	ObjectColor objectColor_;
 	Vector4 color_;
 };

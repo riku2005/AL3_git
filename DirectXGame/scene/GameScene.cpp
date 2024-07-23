@@ -74,6 +74,9 @@ void GameScene::Initialize() {
 	player_ ->Initialize(&viewProjection_,playerPosition);
 	player_->SetMapChipField(mapChipField_);
 
+	deathParticles_ = new DeathParticles;
+	deathParticles_->Initialize(modelDeathParticle_,&viewProjection_,playerPosition);
+
 	GenerateBlocks();
 
 	cameraController = new CameraController;
@@ -183,7 +186,7 @@ void GameScene::Draw() {
 	}
 
 	if (deathParticles_) {
-		deathParticles_->Update();
+		deathParticles_->Draw();
 	}
 
 	//縦横ブロック描画

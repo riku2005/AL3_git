@@ -51,8 +51,8 @@ void DeathParticles::Update() {
 	}
 
 	color_.w = std::max(0.0f,1.0f - counter_ / kDuration);
-	objectColor_.SetColor(color_);
-	objectColor_.TransferMatrix();
+//	objectColor_.SetColor(color_);
+//	objectColor_.TransferMatrix();
 
 }
 
@@ -63,7 +63,7 @@ void DeathParticles::Draw() {
 	}
 
 	for (auto& worldTransform : worldTransforms_) {
-		model_->Draw(worldTransform,*viewProjection_,&objectColor_);
+		model_->Draw(worldTransform,*viewProjection_);//,&objectColor_);
 	}
 
 }
