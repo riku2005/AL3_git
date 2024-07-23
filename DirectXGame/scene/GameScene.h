@@ -14,7 +14,7 @@
 #include "MapChipField.h"
 #include "CameraController.h"
 #include "Enemy.h"
-
+#include <list>
 #include <vector>
 
 /// <summary>
@@ -84,6 +84,10 @@ private: // メンバ変数
 	CameraController* cameraController = nullptr;
 
 	Enemy* enemy_ = nullptr;
+
+	std::list<Enemy*> enemies_;
+
+	void CheckAllCollisions();
 
 	/// <summary>
 	/// ゲームシーン用
