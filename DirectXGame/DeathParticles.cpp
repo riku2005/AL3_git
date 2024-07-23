@@ -25,6 +25,10 @@ void DeathParticles::Initialize(Model* model, ViewProjection* viewProjection, co
 
 void DeathParticles::Update() {
 
+	if (isFinished_) {
+		return;
+	}
+
 	counter_ += 1.0f / 60.0f;
 
 	if (counter_ >= kDuration) {
@@ -32,6 +36,34 @@ void DeathParticles::Update() {
 		isFinished_ = true;
 	}
 
+	for (uint32_t i = 0; i < worldTransforms_.size(); ++i) {
+		Vector3 velocity = {kSpeed,0,0};
+		//速度ベクトルを回転させる
+		float angle = kAngleUnit * i;
+		Matrix4x4 matrixRotation = MakeRotateZMatrix(angle);
+		velocity = Transform(velocity,matrixRotation);
 
+		worldTransforms_[i].translation_ += velocity;
+	}
+
+	for (auto& worldTransform : worldTransforms_) {
+		worldTransform.UpdateMatrix();
+	}
+
+	color_.w = std::max(0.0f,1.0f - counter_ / kDuration);
+	objectColor_.SetColor(color_);
+	objectColor_.TransferMatrix();
+
+}
+
+void DeathParticles::Draw() {
+
+	if (isFinished_) {
+		return;
+	}
+
+	for (auto& worldTransform : worldTransforms_) {
+		model_->Draw(worldTransform,*viewProjection_,&objectColor_);
+	}
 
 }

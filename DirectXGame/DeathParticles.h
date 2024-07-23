@@ -6,6 +6,7 @@
 #include<array>
 #include<numbers>
 
+
 class DeathParticles {
 public:
 
@@ -27,6 +28,6 @@ private:
 	ViewProjection* viewProjection_ = nullptr;
 	bool isFinished_ = 0.0f;
 	float counter_ = 0.0f;
-	//ObjectColor objectColor_;
-	//Vector4 color_;
+	ObjectColor objectColor_;
+	Vector4 color_;
 };
