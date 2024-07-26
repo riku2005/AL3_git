@@ -49,9 +49,15 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-	void GenerateBlocks();
+	bool IsFinished() const {return finished_;}
 
 private: // メンバ変数
+
+	enum class Phase {
+		kPlay,
+		kDeath,
+	};
+
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
@@ -89,7 +95,18 @@ private: // メンバ変数
 
 	std::list<Enemy*> enemies_;
 
+	bool finished_ = false;
+	Phase phase_;
+
 	DeathParticles* deathParticles_ = nullptr;
+
+	void ChangePhase();
+
+	void GenerateBlocks();
+
+	void UpdateCamera();
+
+	void UpdateBlocks();
 
 	void CheckAllCollisions();
 

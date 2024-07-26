@@ -18,6 +18,8 @@ public:
 
 	void Draw();
 
+	bool IsFinished() const {return finished_;}
+
 private:
 
 	static inline const uint32_t kNumParticles = 8;
@@ -30,6 +32,7 @@ private:
 	ViewProjection* viewProjection_ = nullptr;
 	bool isFinished_ = 0.0f;
 	float counter_ = 0.0f;
+	bool finished_ = false;
 //	ObjectColor objectColor_;
 	Vector4 color_;
 };

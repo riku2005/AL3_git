@@ -47,6 +47,7 @@ public:
 	//getter
 	const WorldTransform& GetWorldTransform() const {return worldTransform_;}
 	const Vector3& GetVelocity() const {return velocity_;}
+	bool IsDead() const {return isDead_;}
 
 private:
 
@@ -100,6 +101,8 @@ private:
 
 	//マップチップフィールド
 	MapChipField* mapChipField_ = nullptr;
+
+	bool isDead_ = false;
 
 	void InputMove();
 	void CheckMapCollision(CollisionMapInfo& info);
