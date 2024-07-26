@@ -120,7 +120,7 @@ void GameScene::Update() {
 		break;
 
 	case Phase::kDeath:
-		if (deathParticles_ && deathParticles_->IsFinished()) {
+		if (deathParticles_->IsFinished()==true) {
 			finished_ = true;
 		}
 
@@ -169,7 +169,9 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	player_ ->Draw();
+	if (!player_->IsDead()) {
+		player_ ->Draw();
+	}
 
 	for (Enemy* enemy : enemies_) {
 		enemy->Draw();

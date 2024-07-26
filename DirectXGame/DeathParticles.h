@@ -18,7 +18,7 @@ public:
 
 	void Draw();
 
-	bool IsFinished() const {return finished_;}
+	bool IsFinished() const {return isFinished_;}
 
 private:
 
@@ -30,9 +30,9 @@ private:
 	Model* model_ = nullptr;
 	std::array<WorldTransform,kNumParticles>worldTransforms_;
 	ViewProjection* viewProjection_ = nullptr;
-	bool isFinished_ = 0.0f;
+	bool isFinished_ = false;
 	float counter_ = 0.0f;
-	bool finished_ = false;
+//	bool finished_ = false;
 //	ObjectColor objectColor_;
 	Vector4 color_;
 };

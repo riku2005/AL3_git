@@ -53,10 +53,10 @@ void UpdateScene() {
 
 	switch (scene) {
 	case Scene::kTitle:
-		titleScene->Draw();
+		titleScene->Update();
 		break;
 	case Scene::kGame:
-		gameScene->Draw();
+		gameScene->Update();
 		break;
 	}
 
@@ -124,7 +124,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ゲームシーンの初期化
 	scene = Scene::kTitle;
-	scene = Scene::kTitle;
+//	scene = Scene::kTitle;
 	titleScene = new TitleScene;
 	titleScene->Initialize();
 

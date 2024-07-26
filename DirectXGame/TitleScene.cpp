@@ -13,7 +13,7 @@ TitleScene::~TitleScene() {
 
 void TitleScene::Initialize() {
 
-	modelTitle_ = Model::CreateFromOBJ("titleFont",true);
+//	modelTitle_ = Model::CreateFromOBJ("titleFont",true);
 	modelPlayer_ = Model::CreateFromOBJ("player");
 
 	viewProjection_.Initialize();
@@ -37,14 +37,14 @@ void TitleScene::Update() {
 		finished_ = true;
 	}
 
-	counter_ += 1.0f / 60.0f;
-	counter_ = std::fmod(counter_,kTimeTitleMove);
+//	counter_ += 1.0f / 60.0f;
+//	counter_ = std::fmod(counter_,kTimeTitleMove);
 
-	float angle = counter_ / kTimeTitleMove * 2.0f * std::numbers::pi_v<float>;
+//	float angle = counter_ / kTimeTitleMove * 2.0f * std::numbers::pi_v<float>;
 
-	worldTransformTitle_.translation_.y = std::sin(angle) + 10.0f;
+//	worldTransformTitle_.translation_.y = std::sin(angle) + 10.0f;
 	viewProjection_.TransferMatrix();
-	worldTransformTitle_.UpdateMatrix();
+//	worldTransformTitle_.UpdateMatrix();
 	worldTransformPlayer_.UpdateMatrix();
 
 }
@@ -55,7 +55,7 @@ void TitleScene::Draw() {
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
 	Model::PreDraw(commandList);
-	modelTitle_->Draw(worldTransformTitle_,viewProjection_);
+//	modelTitle_->Draw(worldTransformTitle_,viewProjection_);
 	modelPlayer_->Draw(worldTransformPlayer_,viewProjection_);
 	Model::PostDraw();
 
