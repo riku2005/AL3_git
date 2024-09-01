@@ -60,11 +60,11 @@ void GameScene::Initialize() {
 	debugCamera_ = new DebugCamera(1280, 720);
 
 	//天球の生成
-	//skydome_ = new Skydome();
+	skydome_ = new Skydome();
 
 	//天球の初期化
-	//modelSkydome_ = Model::CreateFromOBJ("sphere",true);
-	//skydome_->Initialize(modelSkydome_,&viewProjection_);
+	modelSkydome_ = Model::CreateFromOBJ("sphere",true);
+	skydome_->Initialize(modelSkydome_,&viewProjection_);
 
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/map.csv");
@@ -191,7 +191,7 @@ void GameScene::Draw() {
 		}
 	}
 
-	//skydome_->Draw();
+	skydome_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

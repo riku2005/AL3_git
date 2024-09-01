@@ -24,9 +24,11 @@ private:
 	ViewProjection viewProjection_;
 	WorldTransform worldTransformTitle_;
 	WorldTransform worldTransformPlayer_;
+	//WorldTransform worldTransformEnemy_;
 
 	Model* modelPlayer_ = nullptr;
 	Model* modelTitle_ = nullptr;
+	Model* modelEnemy_ = nullptr;
 
 	float counter_ = 0.0f;
 	bool finished_ = false;

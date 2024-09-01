@@ -9,12 +9,14 @@
 TitleScene::~TitleScene() {
 	delete modelPlayer_;
 	delete modelTitle_;
+	delete modelEnemy_;
 }
 
 void TitleScene::Initialize() {
 
 //	modelTitle_ = Model::CreateFromOBJ("titleFont",true);
 	modelPlayer_ = Model::CreateFromOBJ("player");
+	modelEnemy_ = Model::CreateFromOBJ("enemy");
 
 	viewProjection_.Initialize();
 
@@ -57,6 +59,7 @@ void TitleScene::Draw() {
 	Model::PreDraw(commandList);
 //	modelTitle_->Draw(worldTransformTitle_,viewProjection_);
 	modelPlayer_->Draw(worldTransformPlayer_,viewProjection_);
+	modelEnemy_->Draw(worldTransformTitle_,viewProjection_);
 	Model::PostDraw();
 
 }
