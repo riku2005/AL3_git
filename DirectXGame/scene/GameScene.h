@@ -14,6 +14,7 @@
 #include "MapChipField.h"
 #include "CameraController.h"
 #include "Enemy.h"
+#include "goal.h"
 #include "DeathParticles.h"
 #include <list>
 #include <vector>
@@ -68,6 +69,7 @@ private: // メンバ変数
 	Model* modelBlock_ = nullptr;
 	Model* modelEnemy_ = nullptr;
 	Model* modelDeathParticle_ = nullptr;
+	Model* modelGoal_ = nullptr;
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
 
@@ -99,6 +101,8 @@ private: // メンバ変数
 	Phase phase_;
 
 	DeathParticles* deathParticles_ = nullptr;
+
+	Goal* goal_ = nullptr;
 
 	void ChangePhase();
 

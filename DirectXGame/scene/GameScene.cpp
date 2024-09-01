@@ -34,6 +34,7 @@ GameScene::~GameScene() {
 	delete modelBlock_;
 	delete modelEnemy_;
 	delete modelDeathParticle_;
+	delete modelGoal_;
 
 }
 
@@ -50,6 +51,7 @@ void GameScene::Initialize() {
 	modelBlock_  = Model::CreateFromOBJ("block");
 	modelEnemy_ = Model::CreateFromOBJ("enemy");
 	modelDeathParticle_ = Model::CreateFromOBJ("deathParticle",true);
+	modelGoal_ = Model::CreateFromOBJ("goal");
 	worldTransform_.Initialize();
 	viewProjection_.Initialize();
 	//自キャラの生成
@@ -76,6 +78,10 @@ void GameScene::Initialize() {
 
 	deathParticles_ = new DeathParticles;
 	deathParticles_->Initialize(modelDeathParticle_,&viewProjection_,playerPosition);
+
+	goal_ = new Goal;
+	Vector3 goalPosition = mapChipField_->GetMapChipPositionByIndex(92,16);
+	goal_->Initialize(modelGoal_,&viewProjection_,goalPosition);
 
 	GenerateBlocks();
 
@@ -110,6 +116,12 @@ void GameScene::Update() {
 
 		for (Enemy* enemy : enemies_) {
 			enemy->Update();
+		}
+
+		goal_->Update();
+
+		if (goal_->IsGoal == true) {
+			finished_ = true;
 		}
 
 		UpdateCamera();
@@ -192,6 +204,8 @@ void GameScene::Draw() {
 	}
 
 	skydome_->Draw();
+
+	goal_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -308,7 +322,7 @@ void GameScene::UpdateBlocks() {
 
 void GameScene::CheckAllCollisions() {
 	//判定対象1と2の座標
-	AABB aabb1,aabb2;
+	AABB aabb1,aabb2,aabb3;
 
 #pragma region 自キャラと敵キャラの当たり判定
 	{
@@ -328,6 +342,14 @@ void GameScene::CheckAllCollisions() {
 				enemy->OnCollision(player_);
 			}
 		}
+
+		aabb3 = goal_->GetAABB();
+
+		//AABB同士の交差判定
+			if (IsCollision(aabb1, aabb3)) {
+				//敵弾の衝突時コールバックを呼び出す
+				goal_->OnCollision(player_);
+			}
 
 	}
 	#pragma endregion
